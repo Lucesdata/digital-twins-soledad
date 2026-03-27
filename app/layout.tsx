@@ -15,9 +15,9 @@ const ibmPlexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AP01 La Soledad — PTAP Interactiva | UAESP Cali",
+  title: "Digital Twins Soledad — AP01 | UAESP Cali",
   description:
-    "Aplicación interactiva de monitoreo de la Planta de Tratamiento de Agua Potable AP01 La Soledad, La Buitrera — UAESP Cali 2026.",
+    "Gemelo digital interactivo de la Planta de Tratamiento de Agua Potable AP01 La Soledad, La Buitrera — UAESP Cali 2026.",
 };
 
 export default function RootLayout({
