@@ -616,7 +616,7 @@ export default function PlantaInteractivaPage() {
 
   return (
     <div style={{
-      minHeight:      '100vh',
+      height:         '100vh',
       background:     C.deep,
       fontFamily:     "'IBM Plex Mono', monospace",
       color:          C.white,

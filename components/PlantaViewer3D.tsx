@@ -604,10 +604,10 @@ export default function PlantaViewer3D() {
     : 0
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden', background: '#020C10' }}>
+    <div style={{ position: 'relative', flex: 1, minHeight: 0, overflow: 'hidden', background: '#020C10' }}>
 
       {/* Three.js mount */}
-      <div ref={mountRef} style={{ width: '100%', height: '100%' }} />
+      <div ref={mountRef} style={{ position: 'absolute', inset: 0 }} />
 
       {/* Header overlay */}
       <div style={{
