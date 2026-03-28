@@ -1,6 +1,9 @@
 "use client"
 
 import { useState, useEffect, useCallback } from 'react'
+import dynamic from 'next/dynamic'
+
+const PlantaViewer3D = dynamic(() => import('@/components/PlantaViewer3D'), { ssr: false })
 
 // ─── Design System ────────────────────────────────────────────────────────────
 const C = {
@@ -553,6 +556,7 @@ function DetailPanel({
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 export default function PlantaInteractivaPage() {
+  const [view,         setView]         = useState<'3d' | 'dashboard'>('3d')
   const [selected,     setSelected]     = useState<string | null>(null)
   const [activeStage,  setActiveStage]  = useState<Stage | null>(null)
   const [values,       setValues]       = useState<Record<string, number>>({})
@@ -612,7 +616,7 @@ export default function PlantaInteractivaPage() {
 
   return (
     <div style={{
-      minHeight:      '100vh',
+      height:         '100vh',
       background:     C.deep,
       fontFamily:     "'IBM Plex Mono', monospace",
       color:          C.white,
@@ -743,10 +747,47 @@ export default function PlantaInteractivaPage() {
         })}
       </div>
 
+      {/* ── VIEW TABS ───────────────────────────────────────────────────────── */}
+      <div style={{
+        display: 'flex', gap: 0,
+        background: C.deep2,
+        borderBottom: `1px solid ${C.border}`,
+        flexShrink: 0,
+      }}>
+        {([
+          { key: '3d',        label: '⬡ GEMELO 3D',      title: 'Vista tridimensional interactiva de la planta' },
+          { key: 'dashboard', label: '◈ INSTRUMENTACIÓN', title: 'Dashboard de sensores IoT' },
+        ] as const).map(tab => (
+          <button
+            key={tab.key}
+            title={tab.title}
+            onClick={() => setView(tab.key)}
+            style={{
+              padding: '9px 22px',
+              fontFamily: "'Orbitron', monospace",
+              fontSize: 10, letterSpacing: '0.1em',
+              background: view === tab.key ? 'rgba(0,245,255,0.06)' : 'transparent',
+              color: view === tab.key ? C.cyan : C.muted,
+              border: 'none',
+              borderBottom: view === tab.key ? `2px solid ${C.cyan}` : '2px solid transparent',
+              cursor: 'pointer',
+              transition: 'color 0.15s, border-color 0.15s',
+            }}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
       {/* ── BODY ────────────────────────────────────────────────────────────── */}
       <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
 
-        {/* Main content */}
+        {/* ── 3D VIEW ── */}
+        {view === '3d' && <PlantaViewer3D />}
+
+        {/* ── DASHBOARD VIEW ── */}
+        {view === 'dashboard' && (
+        <>
         <div style={{ flex: 1, overflowY: 'auto', padding: '20px 24px' }}>
 
           {/* Process flow diagram */}
@@ -881,6 +922,8 @@ export default function PlantaInteractivaPage() {
             value={values[selectedInst.tag] ?? selectedInst.nominal}
             onClose={() => setSelected(null)}
           />
+        )}
+        </>
         )}
       </div>
 
